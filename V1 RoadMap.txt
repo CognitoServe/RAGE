@@ -1,0 +1,434 @@
+Vision
+
+The end goal of Version 1 is not AGI.
+
+It is a brain that can:
+
+Observe
+Remember
+Reason
+Plan
+Learn
+Improve
+Explain its decisions internally
+
+No LLM.
+No transformers required.
+
+Version 0.1 — Core Brain
+
+Goal:
+A system that can store knowledge and make simple logical decisions.
+
+Modules:
+
+Brain
+├── Core
+├── Memory
+├── Knowledge Graph
+├── Rule Engine
+└── CLI
+
+Learn:
+
+Python
+OOP
+SQLite
+NetworkX
+Graph theory
+Rule-based systems
+
+Deliverable:
+
+brain.ask()
+
+↓
+
+Decision
+Version 0.2 — Memory
+
+Add three memory systems.
+
+Working Memory
+
+Short-term thinking
+
+────────────
+
+Semantic Memory
+
+Facts
+
+────────────
+
+Episodic Memory
+
+Past experiences
+
+Example
+
+Today
+
+↓
+
+Moved file
+
+↓
+
+Succeeded
+
+↓
+
+Store event
+
+Learn
+
+Memory architectures
+Vector representations (optional)
+Temporal databases
+Version 0.3 — Knowledge
+
+Brain starts building relationships.
+
+Example
+
+Dog
+
+↓
+
+Animal
+
+↓
+
+Living Thing
+
+Supports
+
+inheritance
+hierarchy
+relationships
+properties
+
+Learn
+
+RDF
+OWL
+Ontologies
+Neo4j concepts (even if you implement your own)
+Version 0.4 — Logic
+
+Replace simple rules.
+
+Support
+
+IF
+
+A
+
+AND
+
+NOT B
+
+↓
+
+C
+
+Then
+
+IF
+
+C
+
+OR
+
+D
+
+↓
+
+E
+
+Eventually
+
+Forward Chaining
+
+Backward Chaining
+
+Inference
+
+Truth maintenance
+
+Learn
+
+First-order logic
+Prolog concepts
+Z3 SMT Solver
+Version 0.5 — Goals
+
+Brain now has objectives.
+
+Example
+
+Goal
+
+↓
+
+Organize Downloads
+
+Brain decomposes
+
+Find files
+
+↓
+
+Sort
+
+↓
+
+Rename
+
+↓
+
+Move
+
+Learn
+
+Goal decomposition
+HTN Planning
+STRIPS
+Version 0.6 — Planner
+
+Planning becomes automatic.
+
+Instead of
+
+Move file
+
+Brain thinks
+
+Goal
+
+↓
+
+Possible actions
+
+↓
+
+Evaluate
+
+↓
+
+Choose
+
+↓
+
+Execute
+
+Learn
+
+A*
+Dijkstra
+BFS
+DFS
+PDDL
+Version 0.7 — Self Evaluation
+
+Every action gets scored.
+
+Task
+
+↓
+
+Outcome
+
+↓
+
+Success?
+
+↓
+
+Why?
+
+↓
+
+Store lesson
+
+Brain builds
+
+Lessons Learned
+
+instead of only memories.
+
+Version 0.8 — Learning
+
+Now it improves.
+
+Not neural yet.
+
+Example
+
+Rule
+
+↓
+
+Worked 93%
+
+↓
+
+Increase confidence
+
+────────
+
+Rule
+
+↓
+
+Failed
+
+↓
+
+Decrease confidence
+
+Eventually
+
+Discover new rules
+
+Automatically
+
+Learn
+
+Rule induction
+Decision trees
+Bayesian updating
+Version 0.9 — Perception
+
+Brain now observes.
+
+Start with images.
+
+Image
+
+↓
+
+CNN
+
+↓
+
+Object
+
+↓
+
+Knowledge Graph
+
+Later
+
+Audio
+
+↓
+
+Speech
+
+↓
+
+Symbols
+
+Remember:
+
+Neural network only converts raw data into symbols.
+
+Version 0.95 — Causal Reasoning
+
+Not
+
+A happened.
+
+B happened.
+
+Instead
+
+Did A
+
+CAUSE
+
+B?
+
+Learn
+
+Judea Pearl
+Structural Causal Models
+Bayesian Networks
+
+Huge upgrade.
+
+Version 1.0
+
+Everything connects.
+
+                    INPUT
+                      │
+                      ▼
+               Perception Layer
+                      │
+                      ▼
+             Symbol Extraction
+                      │
+                      ▼
+              Knowledge Graph
+                      │
+     ┌────────────────┼────────────────┐
+     ▼                ▼                ▼
+Working          Semantic         Episodic
+Memory            Memory           Memory
+     └────────────────┼────────────────┘
+                      ▼
+               Logic Engine
+                      │
+                      ▼
+               Goal Manager
+                      │
+                      ▼
+              Planning Engine
+                      │
+                      ▼
+             Decision Engine
+                      │
+                      ▼
+          Self-Evaluation Engine
+                      │
+                      ▼
+           Learning / Rule Discovery
+                      │
+                      ▼
+             Updated Knowledge
+Technologies
+Component	Technology
+Core	Python
+Database	SQLite
+Graph	NetworkX
+Knowledge Graph	RDF concepts
+Rule Engine	Experta → Z3
+Planning	PDDL + A*
+Memory	Custom implementation
+Vision	PyTorch
+Learning	Decision Trees + Bayesian methods
+Causal	DoWhy, pgmpy
+Configuration	Pydantic
+APIs	FastAPI
+
+| Capability               | Best Technology Today                             |
+| ------------------------ | ------------------------------------------------- |
+| Perception               | Deep Neural Networks (CNNs, Vision Transformers)  |
+| Logical reasoning        | Symbolic logic, SAT/SMT solvers (Z3)              |
+| Planning                 | PDDL, STRIPS, A*, Hierarchical Task Networks      |
+| Mathematics              | Symbolic algebra (SymPy), theorem provers         |
+| Long-term memory         | Knowledge Graphs, Graph Databases                 |
+| Learning from rewards    | Reinforcement Learning                            |
+| Decision making          | Constraint Optimization                           |
+| Uncertainty              | Bayesian Networks, Probabilistic Graphical Models |
+| Causal reasoning         | Structural Causal Models                          |
+| Program synthesis        | Neuro-symbolic program synthesis                  |
+| Knowledge representation | Ontologies (OWL/RDF)                              |
+
+
+
+prompt - version is much better otherwise rfc is gonna increase the memory so large, you can't even imagine.
+

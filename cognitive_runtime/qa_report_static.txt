@@ -1,0 +1,732 @@
+--- uv run ruff check cognitive_runtime ---
+E501 Line too long (99 > 88)
+  --> cognitive_runtime\core\brain.py:72:89
+   |
+70 |             registry.register(Planner, planner)
+71 |
+72 |             # 8. Verify dependencies (implicit by resolving correctly, no deeper check defined yet)
+   |                                                                                         ^^^^^^^^^^^
+73 |
+74 |             # 9. Publish RuntimeStarted
+   |
+
+SIM105 Use `contextlib.suppress(Exception)` instead of `try`-`except`-`pass`
+   --> cognitive_runtime\core\brain.py:103:17
+    |
+101 |                   continue
+102 |               if hasattr(service, "shutdown") and callable(service.shutdown):
+103 | /                 try:
+104 | |                     service.shutdown()
+105 | |                 except Exception:
+106 | |                     pass
+    | |________________________^
+107 |
+108 |           # 4. Publish RuntimeStopped
+    |
+help: Replace `try`-`except`-`pass` with `with contextlib.suppress(Exception): ...`
+
+SIM105 Use `contextlib.suppress(Exception)` instead of `try`-`except`-`pass`
+   --> cognitive_runtime\core\brain.py:110:13
+    |
+108 |           # 4. Publish RuntimeStopped
+109 |           if event_bus:
+110 | /             try:
+111 | |                 event_bus.publish(create_runtime_stopped_event())
+112 | |             except Exception:
+113 | |                 pass
+    | |____________________^
+114 |               
+115 |               # Now shutdown EventBus
+    |
+help: Replace `try`-`except`-`pass` with `with contextlib.suppress(Exception): ...`
+
+SIM105 Use `contextlib.suppress(Exception)` instead of `try`-`except`-`pass`
+   --> cognitive_runtime\core\brain.py:117:17
+    |
+115 |               # Now shutdown EventBus
+116 |               if hasattr(event_bus, "shutdown") and callable(event_bus.shutdown):
+117 | /                 try:
+118 | |                     event_bus.shutdown()
+119 | |                 except Exception:
+120 | |                     pass
+    | |________________________^
+121 |
+122 |           self._services.clear()
+    |
+help: Replace `try`-`except`-`pass` with `with contextlib.suppress(Exception): ...`
+
+B007 Loop control variable `service` not used within loop body
+   --> cognitive_runtime\core\brain.py:138:19
+    |
+136 |         status = HealthStatus(state=self._state, services={})
+137 |         
+138 |         for name, service in self._services.items():
+    |                   ^^^^^^^
+139 |             # In a real system, we might call service.ping() or service.health()
+140 |             # For V0.1, if it's in the dict and resolved, it's considered OK
+    |
+help: Rename unused `service` to `_service`
+
+E501 Line too long (98 > 88)
+  --> cognitive_runtime\decisions\engine.py:30:89
+   |
+28 |             # Event publication
+29 |             if decision.selected_action is None:
+30 |                 event = create_decision_rejected_event(decision.decision_id, decision.explanation)
+   |                                                                                         ^^^^^^^^^^
+31 |                 self._bus.publish(event)
+32 |             else:
+   |
+
+E501 Line too long (96 > 88)
+  --> cognitive_runtime\decisions\engine.py:46:89
+   |
+44 |                 if decision.decision_id == decision_id:
+45 |                     explanation = decision.explanation
+46 |                     self._bus.publish(create_decision_explained_event(decision_id, explanation))
+   |                                                                                         ^^^^^^^^
+47 |                     return explanation
+   |
+
+E501 Line too long (91 > 88)
+  --> cognitive_runtime\decisions\events.py:8:89
+   |
+ 7 | def create_decision_created_event(
+ 8 |     decision_id: str, payload: dict[str, Any] | None = None, source: str = "DecisionEngine"
+   |                                                                                         ^^^
+ 9 | ) -> Event:
+10 |     return Event(
+   |
+
+E501 Line too long (123 > 88)
+  --> cognitive_runtime\decisions\policies.py:22:89
+   |
+20 |         facts = []
+21 |         for item in context.working_memory_items:
+22 |             facts.append(Fact(subject=item.item_id, predicate="in_working_memory", object="true", source="DecisionPolicy"))
+   |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+23 |         for goal in context.active_goals:
+24 |             facts.append(Fact(subject=goal.goal_id, predicate="is_active_goal", object="true", source="DecisionPolicy"))
+   |
+
+E501 Line too long (120 > 88)
+  --> cognitive_runtime\decisions\policies.py:24:89
+   |
+22 |             facts.append(Fact(subject=item.item_id, predicate="in_working_memory", object="true", source="DecisionPolicy"))
+23 |         for goal in context.active_goals:
+24 |             facts.append(Fact(subject=goal.goal_id, predicate="is_active_goal", object="true", source="DecisionPolicy"))
+   |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+25 |
+26 |         # 2. Evaluate rules
+   |
+
+E501 Line too long (100 > 88)
+  --> cognitive_runtime\decisions\policies.py:45:89
+   |
+43 |             )
+44 |             
+45 |         # 4. We need to extract rule metadata. Since RuleEngine currently just returns conclusions, 
+   |                                                                                         ^^^^^^^^^^^^
+46 |         #    we assume conclusions map back to rules.
+47 |         #    Wait, in RFC-0005 we created `RuleEngine.evaluate` to return a list of conclusions.
+   |
+
+E501 Line too long (96 > 88)
+  --> cognitive_runtime\decisions\policies.py:47:89
+   |
+45 |         # 4. We need to extract rule metadata. Since RuleEngine currently just returns conclusions, 
+46 |         #    we assume conclusions map back to rules.
+47 |         #    Wait, in RFC-0005 we created `RuleEngine.evaluate` to return a list of conclusions.
+   |                                                                                         ^^^^^^^^
+48 |         #    We need to match conclusions to actions. For now, let's assume conclusion payload IS the action.
+   |
+
+E501 Line too long (109 > 88)
+  --> cognitive_runtime\decisions\policies.py:48:89
+   |
+46 |         #    we assume conclusions map back to rules.
+47 |         #    Wait, in RFC-0005 we created `RuleEngine.evaluate` to return a list of conclusions.
+48 |         #    We need to match conclusions to actions. For now, let's assume conclusion payload IS the action.
+   |                                                                                         ^^^^^^^^^^^^^^^^^^^^^
+49 |         
+50 |         # We need the highest priority rule. The `evaluate` method of RuleEngine actually executes 
+   |
+
+E501 Line too long (99 > 88)
+  --> cognitive_runtime\decisions\policies.py:50:89
+   |
+48 |         #    We need to match conclusions to actions. For now, let's assume conclusion payload IS the action.
+49 |         
+50 |         # We need the highest priority rule. The `evaluate` method of RuleEngine actually executes 
+   |                                                                                         ^^^^^^^^^^^
+51 |         # rules and returns conclusions, but it doesn't return the rules themselves.
+52 |         # Actually, let's retrieve all rules and evaluate locally if needed, OR we just trust that 
+   |
+
+E501 Line too long (99 > 88)
+  --> cognitive_runtime\decisions\policies.py:52:89
+   |
+50 |         # We need the highest priority rule. The `evaluate` method of RuleEngine actually executes 
+51 |         # rules and returns conclusions, but it doesn't return the rules themselves.
+52 |         # Actually, let's retrieve all rules and evaluate locally if needed, OR we just trust that 
+   |                                                                                         ^^^^^^^^^^^
+53 |         # RuleEngine already evaluated them. If `RuleEngine.evaluate` returns multiple conclusions, 
+54 |         # we can't easily tell which rule priority it came from unless it's in the conclusion.
+   |
+
+E501 Line too long (100 > 88)
+  --> cognitive_runtime\decisions\policies.py:53:89
+   |
+51 |         # rules and returns conclusions, but it doesn't return the rules themselves.
+52 |         # Actually, let's retrieve all rules and evaluate locally if needed, OR we just trust that 
+53 |         # RuleEngine already evaluated them. If `RuleEngine.evaluate` returns multiple conclusions, 
+   |                                                                                         ^^^^^^^^^^^^
+54 |         # we can't easily tell which rule priority it came from unless it's in the conclusion.
+55 |         # For the sake of this policy, let's just pick the first conclusion (RuleEngine might sort by priority).
+   |
+
+E501 Line too long (94 > 88)
+  --> cognitive_runtime\decisions\policies.py:54:89
+   |
+52 |         # Actually, let's retrieve all rules and evaluate locally if needed, OR we just trust that 
+53 |         # RuleEngine already evaluated them. If `RuleEngine.evaluate` returns multiple conclusions, 
+54 |         # we can't easily tell which rule priority it came from unless it's in the conclusion.
+   |                                                                                         ^^^^^^
+55 |         # For the sake of this policy, let's just pick the first conclusion (RuleEngine might sort by priority).
+   |
+
+E501 Line too long (112 > 88)
+  --> cognitive_runtime\decisions\policies.py:55:89
+   |
+53 |         # RuleEngine already evaluated them. If `RuleEngine.evaluate` returns multiple conclusions, 
+54 |         # we can't easily tell which rule priority it came from unless it's in the conclusion.
+55 |         # For the sake of this policy, let's just pick the first conclusion (RuleEngine might sort by priority).
+   |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^
+56 |         
+57 |         # Since RFC says "Highest priority rule wins", if RuleEngine doesn't sort it, we should.
+   |
+
+E501 Line too long (96 > 88)
+  --> cognitive_runtime\decisions\policies.py:57:89
+   |
+55 |         # For the sake of this policy, let's just pick the first conclusion (RuleEngine might sort by priority).
+56 |         
+57 |         # Since RFC says "Highest priority rule wins", if RuleEngine doesn't sort it, we should.
+   |                                                                                         ^^^^^^^^
+58 |         # But RuleEngine was designed to just return conclusions. Let's assume the conclusion contains `rule_id`
+59 |         # or we just take the first one if we can't determine it.
+   |
+
+E501 Line too long (112 > 88)
+  --> cognitive_runtime\decisions\policies.py:58:89
+   |
+57 |         # Since RFC says "Highest priority rule wins", if RuleEngine doesn't sort it, we should.
+58 |         # But RuleEngine was designed to just return conclusions. Let's assume the conclusion contains `rule_id`
+   |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^
+59 |         # or we just take the first one if we can't determine it.
+   |
+
+E501 Line too long (91 > 88)
+  --> cognitive_runtime\decisions\policies.py:61:89
+   |
+59 |         # or we just take the first one if we can't determine it.
+60 |         
+61 |         selected_action = Action(name="RuleAction", payload={"conclusion": conclusions[0]})
+   |                                                                                         ^^^
+62 |         candidate_actions = [Action(name="RuleAction", payload={"conclusion": c}) for c in conclusions]
+   |
+
+E501 Line too long (103 > 88)
+  --> cognitive_runtime\decisions\policies.py:62:89
+   |
+61 |         selected_action = Action(name="RuleAction", payload={"conclusion": conclusions[0]})
+62 |         candidate_actions = [Action(name="RuleAction", payload={"conclusion": c}) for c in conclusions]
+   |                                                                                         ^^^^^^^^^^^^^^^
+63 |         
+64 |         triggering_goal = context.active_goals[0].goal_id if context.active_goals else None
+   |
+
+E501 Line too long (91 > 88)
+  --> cognitive_runtime\decisions\policies.py:64:89
+   |
+62 |         candidate_actions = [Action(name="RuleAction", payload={"conclusion": c}) for c in conclusions]
+63 |         
+64 |         triggering_goal = context.active_goals[0].goal_id if context.active_goals else None
+   |                                                                                         ^^^
+65 |
+66 |         return Decision(
+   |
+
+E501 Line too long (102 > 88)
+  --> cognitive_runtime\decisions\policies.py:70:89
+   |
+68 |             triggering_goal=triggering_goal,
+69 |             context_items=context_item_ids,
+70 |             matched_rules=[], # Can't get rule ID from conclusion directly unless we change RuleEngine
+   |                                                                                         ^^^^^^^^^^^^^^
+71 |             candidate_actions=candidate_actions,
+72 |             selected_action=selected_action,
+   |
+
+E501 Line too long (100 > 88)
+  --> cognitive_runtime\decisions\policies.py:74:89
+   |
+72 |             selected_action=selected_action,
+73 |             confidence=1.0,
+74 |             explanation=f"Selected action based on first matched rule conclusion: {conclusions[0]}",
+   |                                                                                         ^^^^^^^^^^^^
+75 |             metadata={"status": "selected"}
+76 |         )
+   |
+
+E501 Line too long (89 > 88)
+  --> cognitive_runtime\goals\events.py:11:89
+   |
+10 | def create_goal_completed_event(goal_id: str, source: str = "GoalManager") -> Event:
+11 |     return Event(event_type="GoalCompleted", payload={"goal_id": goal_id}, source=source)
+   |                                                                                         ^
+12 |
+13 | def create_goal_cancelled_event(goal_id: str, source: str = "GoalManager") -> Event:
+   |
+
+E501 Line too long (89 > 88)
+  --> cognitive_runtime\goals\events.py:14:89
+   |
+13 | def create_goal_cancelled_event(goal_id: str, source: str = "GoalManager") -> Event:
+14 |     return Event(event_type="GoalCancelled", payload={"goal_id": goal_id}, source=source)
+   |                                                                                         ^
+15 |
+16 | def create_goal_priority_changed_event(goal_id: str, new_priority: int, source: str = "GoalManager") -> Event:
+   |
+
+E501 Line too long (110 > 88)
+  --> cognitive_runtime\goals\events.py:16:89
+   |
+14 |     return Event(event_type="GoalCancelled", payload={"goal_id": goal_id}, source=source)
+15 |
+16 | def create_goal_priority_changed_event(goal_id: str, new_priority: int, source: str = "GoalManager") -> Event:
+   |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^
+17 |     return Event(event_type="GoalPriorityChanged", payload={"goal_id": goal_id, "new_priority": new_priority}, source=source)
+   |
+
+E501 Line too long (125 > 88)
+  --> cognitive_runtime\goals\events.py:17:89
+   |
+16 | def create_goal_priority_changed_event(goal_id: str, new_priority: int, source: str = "GoalManager") -> Event:
+17 |     return Event(event_type="GoalPriorityChanged", payload={"goal_id": goal_id, "new_priority": new_priority}, source=source)
+   |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+
+E501 Line too long (109 > 88)
+  --> cognitive_runtime\goals\manager.py:42:89
+   |
+40 |         if current in self._terminal_states and target not in self._terminal_states:
+41 |             # Cannot transition from terminal back to active
+42 |             raise InvalidStateTransitionError(f"Cannot transition from terminal state {current} to {target}")
+   |                                                                                         ^^^^^^^^^^^^^^^^^^^^^
+43 |
+44 |     def create(self, goal: Goal) -> None:
+   |
+
+E501 Line too long (93 > 88)
+  --> cognitive_runtime\goals\manager.py:76:89
+   |
+75 |         if priority_changed:
+76 |             self._bus.publish(create_goal_priority_changed_event(goal.goal_id, new_priority))
+   |                                                                                         ^^^^^
+77 |
+78 |     def _set_status(self, goal_id: str, status: GoalStatus) -> None:
+   |
+
+E501 Line too long (94 > 88)
+   --> cognitive_runtime\goals\manager.py:114:89
+    |
+113 |             # Sort descending by priority, tie-break by oldest created_at
+114 |             highest = max(active_goals, key=lambda g: (g.priority, -g.created_at.timestamp()))
+    |                                                                                         ^^^^^^
+115 |             return highest.model_copy(deep=True)
+    |
+
+E501 Line too long (93 > 88)
+  --> cognitive_runtime\planner\planner.py:92:89
+   |
+90 |                     step_found = True
+91 |                     if not success:
+92 |                         plan.steps[i] = step.model_copy(update={"status": StepStatus.FAILED})
+   |                                                                                         ^^^^^
+93 |                         self._bus.publish(create_step_failed_event(plan_id, step_id))
+94 |                         # If a step fails, the plan fails in V1
+   |
+
+E501 Line too long (96 > 88)
+   --> cognitive_runtime\planner\planner.py:98:89
+    |
+ 96 |                         self._bus.publish(create_plan_updated_event(plan.model_copy(deep=True)))
+ 97 |                     else:
+ 98 |                         plan.steps[i] = step.model_copy(update={"status": StepStatus.COMPLETED})
+    |                                                                                         ^^^^^^^^
+ 99 |                         self._bus.publish(create_step_completed_event(plan_id, step_id))
+100 |                     break
+    |
+
+E501 Line too long (110 > 88)
+   --> cognitive_runtime\planner\planner.py:106:89
+    |
+105 |             # Check if plan is fully completed
+106 |             if plan.status == PlanStatus.ACTIVE and all(s.status == StepStatus.COMPLETED for s in plan.steps):
+    |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^
+107 |                 plan.status = PlanStatus.COMPLETED
+108 |                 self._bus.publish(create_plan_completed_event(plan_id))
+    |
+
+E501 Line too long (94 > 88)
+   --> cognitive_runtime\planner\planner.py:117:89
+    |
+116 |             plan = self._plans[plan_id]
+117 |             if plan.status in (PlanStatus.COMPLETED, PlanStatus.FAILED, PlanStatus.CANCELLED):
+    |                                                                                         ^^^^^^
+118 |                 return
+    |
+
+E501 Line too long (89 > 88)
+   --> cognitive_runtime\planner\planner.py:123:89
+    |
+121 |             for i, step in enumerate(plan.steps):
+122 |                 if step.status in (StepStatus.PENDING, StepStatus.ACTIVE):
+123 |                     plan.steps[i] = step.model_copy(update={"status": StepStatus.FAILED})
+    |                                                                                         ^
+124 |                     
+125 |         self._bus.publish(create_plan_cancelled_event(plan_id))
+    |
+
+ARG002 Unused method argument: `context`
+  --> cognitive_runtime\planner\strategies.py:13:44
+   |
+11 |     Does not use search algorithms or dynamic branching.
+12 |     """
+13 |     def generate_steps(self, goal_id: str, context: dict) -> list[Step]:
+   |                                            ^^^^^^^
+14 |         # For V1, we simulate deterministic goal decomposition.
+15 |         # In a real system, this might look up templates mapped to goal types.
+   |
+
+SIM110 Use `return all(self._validate_condition(sub) for sub in condition.sub_conditions)` instead of `for` loop
+   --> cognitive_runtime\rules\engine.py:96:9
+    |
+ 94 |           if not condition.patterns and not condition.sub_conditions:
+ 95 |               return False
+ 96 | /         for sub in condition.sub_conditions:
+ 97 | |             if not self._validate_condition(sub):
+ 98 | |                 return False
+ 99 | |         return True
+    | |___________________^
+100 |
+101 |       def list_rules(self) -> list[Rule]:
+    |
+help: Replace with `return all(self._validate_condition(sub) for sub in condition.sub_conditions)`
+
+E731 Do not assign a `lambda` expression, use a `def`
+  --> cognitive_runtime\stress\cases.py:25:13
+   |
+23 |     def worker(tid):
+24 |         try:
+25 |             handler = lambda _e: None
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^
+26 |             bus.subscribe(f"Topic_{tid}", handler)
+   |
+help: Rewrite `handler` as a `def`
+
+B007 Loop control variable `i` not used within loop body
+  --> cognitive_runtime\stress\cases.py:62:13
+   |
+60 |         system = MemorySystemImpl(repo, bus)
+61 |
+62 |         for i in range(10):
+   |             ^
+63 |             system.remember(Experience(source="init", category="test"))
+   |
+help: Rename unused `i` to `_i`
+
+B007 Loop control variable `i` not used within loop body
+  --> cognitive_runtime\stress\cases.py:67:21
+   |
+65 |         def worker(tid):
+66 |             try:
+67 |                 for i in range(iterations):
+   |                     ^
+68 |                     exp = Experience(source=f"worker_{tid}", category="stress")
+69 |                     system.remember(exp)
+   |
+help: Rename unused `i` to `_i`
+
+B007 Loop control variable `tid` not used within loop body
+   --> cognitive_runtime\stress\cases.py:140:9
+    |
+139 |     classes = []
+140 |     for tid in range(threads_count):
+    |         ^^^
+141 |
+142 |         class LocalService:
+    |
+help: Rename unused `tid` to `_tid`
+
+B007 Loop control variable `i` not used within loop body
+   --> cognitive_runtime\stress\cases.py:150:17
+    |
+148 |         service_class = classes[tid]
+149 |         try:
+150 |             for i in range(iterations):
+    |                 ^
+151 |                 service_instance = service_class()
+152 |                 registry.register(service_class, service_instance)
+    |
+help: Rename unused `i` to `_i`
+
+E501 Line too long (106 > 88)
+   --> cognitive_runtime\stress\cases.py:197:89
+    |
+196 |                 if i % 10 == 0:
+197 |                     facts = [Fact(subject=f"Subj_{tid}_{i}", predicate="is", object="A", source="stress")]
+    |                                                                                         ^^^^^^^^^^^^^^^^^^
+198 |                     engine.evaluate(facts)
+199 |                     engine.remove(rule.rule_id)
+    |
+
+E501 Line too long (98 > 88)
+   --> cognitive_runtime\stress\cases.py:226:89
+    |
+224 |             for i in range(iterations):
+225 |                 goal_id = f"goal_{tid}_{i}"
+226 |                 goal = Goal(goal_id=goal_id, title=f"G_{tid}_{i}", description="Desc", priority=i)
+    |                                                                                         ^^^^^^^^^^
+227 |                 manager.create(goal)
+    |
+
+E501 Line too long (103 > 88)
+   --> cognitive_runtime\stress\cases.py:270:89
+    |
+268 |             for i in range(iterations):
+269 |                 item_id = f"item_{tid}_{i}"
+270 |                 item = WorkingMemoryItem(item_id=item_id, source=ItemSource.MEMORY, reference_id="ref")
+    |                                                                                         ^^^^^^^^^^^^^^^
+271 |                 wm.activate(item)
+    |
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> cognitive_runtime\stress\cases_extra.py:2:1
+  |
+1 |   # 7. Working Memory Stress
+2 | / import threading
+3 | | from cognitive_runtime.events.bus import SynchronousEventBus
+  | |____________________________________________________________^
+4 |
+5 |   def stress_working_memory_extra(threads_count: int = 5, iterations: int = 2000):
+  |
+help: Organize imports
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> cognitive_runtime\stress\cases_extra.py:6:5
+   |
+ 5 |   def stress_working_memory_extra(threads_count: int = 5, iterations: int = 2000):
+ 6 | /     from cognitive_runtime.working_memory.models import WorkingMemoryItem, ItemSource
+ 7 | |     from cognitive_runtime.working_memory.policies import LRUEvictionPolicy
+ 8 | |     from cognitive_runtime.working_memory.system import DefaultWorkingMemory
+   | |____________________________________________________________________________^
+ 9 |
+10 |       class StressTestFailureError(Exception):
+   |
+help: Organize imports
+
+E501 Line too long (103 > 88)
+  --> cognitive_runtime\stress\cases_extra.py:22:89
+   |
+20 |             for i in range(iterations):
+21 |                 item_id = f"item_{tid}_{i}"
+22 |                 item = WorkingMemoryItem(item_id=item_id, source=ItemSource.MEMORY, reference_id="ref")
+   |                                                                                         ^^^^^^^^^^^^^^^
+23 |                 wm.activate(item)
+   |
+
+E501 Line too long (90 > 88)
+  --> cognitive_runtime\stress\main.py:14:89
+   |
+12 | def run_scenario(name, func, threads, iterations):
+13 |     print(
+14 |         f"Running Stress Scenario: {name} ({threads} threads, {iterations} ops/thread)..."
+   |                                                                                         ^^
+15 |     )
+16 |     t0 = time.perf_counter()
+   |
+
+E501 Line too long (90 > 88)
+  --> cognitive_runtime\stress\main.py:54:89
+   |
+53 |     print(
+54 |         "\n| Scenario Name | Total Operations | Status | Duration (s) | Error / Anomaly |"
+   |                                                                                         ^^
+55 |     )
+56 |     print("| :--- | :--- | :--- | :--- | :--- |")
+   |
+
+E501 Line too long (98 > 88)
+ --> cognitive_runtime\working_memory\events.py:5:89
+  |
+4 | def create_wm_activated_event(item_id: str, source: str = "WorkingMemory") -> Event:
+5 |     return Event(event_type="WorkingMemoryActivated", payload={"item_id": item_id}, source=source)
+  |                                                                                         ^^^^^^^^^^
+6 |
+7 | def create_wm_deactivated_event(item_id: str, source: str = "WorkingMemory") -> Event:
+  |
+
+E501 Line too long (100 > 88)
+  --> cognitive_runtime\working_memory\events.py:8:89
+   |
+ 7 | def create_wm_deactivated_event(item_id: str, source: str = "WorkingMemory") -> Event:
+ 8 |     return Event(event_type="WorkingMemoryDeactivated", payload={"item_id": item_id}, source=source)
+   |                                                                                         ^^^^^^^^^^^^
+ 9 |
+10 | def create_wm_evicted_event(item_id: str, source: str = "WorkingMemory") -> Event:
+   |
+
+E501 Line too long (96 > 88)
+  --> cognitive_runtime\working_memory\events.py:11:89
+   |
+10 | def create_wm_evicted_event(item_id: str, source: str = "WorkingMemory") -> Event:
+11 |     return Event(event_type="WorkingMemoryEvicted", payload={"item_id": item_id}, source=source)
+   |                                                                                         ^^^^^^^^
+12 |
+13 | def create_wm_cleared_event(source: str = "WorkingMemory") -> Event:
+   |
+
+E501 Line too long (90 > 88)
+  --> cognitive_runtime\working_memory\interfaces.py:8:89
+   |
+ 6 | class EvictionPolicy(ABC):
+ 7 |     @abstractmethod
+ 8 |     def select_eviction(self, items: list[WorkingMemoryItem]) -> WorkingMemoryItem | None:
+   |                                                                                         ^^
+ 9 |         """Returns the item to evict when capacity is reached."""
+10 |         pass
+   |
+
+E501 Line too long (90 > 88)
+  --> cognitive_runtime\working_memory\policies.py:11:89
+   |
+ 9 |     Evaluates based on the `last_accessed` timestamp.
+10 |     """
+11 |     def select_eviction(self, items: list[WorkingMemoryItem]) -> WorkingMemoryItem | None:
+   |                                                                                         ^^
+12 |         if not items:
+13 |             return None
+   |
+
+E501 Line too long (108 > 88)
+  --> cognitive_runtime\working_memory\policies.py:17:89
+   |
+15 |         # Sort by last_accessed ascending (oldest first)
+16 |         # In case of tie, use inserted_at
+17 |         oldest = min(items, key=lambda item: (item.last_accessed.timestamp(), item.inserted_at.timestamp()))
+   |                                                                                         ^^^^^^^^^^^^^^^^^^^^
+18 |         return oldest
+   |
+
+E501 Line too long (97 > 88)
+  --> cognitive_runtime\working_memory\system.py:20:89
+   |
+18 |     Default thread-safe implementation of Working Memory.
+19 |     """
+20 |     def __init__(self, event_bus: EventBus, eviction_policy: EvictionPolicy, capacity: int = 20):
+   |                                                                                         ^^^^^^^^^
+21 |         self._bus = event_bus
+22 |         self._policy = eviction_policy
+   |
+
+E501 Line too long (94 > 88)
+  --> cognitive_runtime\working_memory\system.py:42:89
+   |
+40 |         for item_id in expired_ids:
+41 |             del self._items[item_id]
+42 |             self._bus.publish(create_wm_deactivated_event(item_id, source="WorkingMemoryTTL"))
+   |                                                                                         ^^^^^^
+43 |
+44 |     def activate(self, item: WorkingMemoryItem) -> None:
+   |
+
+E501 Line too long (94 > 88)
+  --> cognitive_runtime\working_memory\system.py:53:89
+   |
+52 |             # Defensive copy and update last accessed
+53 |             new_item = item.model_copy(deep=True, update={"last_accessed": datetime.now(UTC)})
+   |                                                                                         ^^^^^^
+54 |             self._items[item.item_id] = new_item
+   |
+
+Found 61 errors.
+[*] 2 fixable with the `--fix` option (10 hidden fixes can be enabled with the `--unsafe-fixes` option).
+--- uv run black cognitive_runtime ---
+reformatted D:\RAGE\cognitive_runtime\cognitive_runtime\core\models.py
+reformatted D:\RAGE\cognitive_runtime\cognitive_runtime\decisions\exceptions.py
+reformatted D:\RAGE\cognitive_runtime\cognitive_runtime\decisions\interfaces.py
+reformatted D:\RAGE\cognitive_runtime\cognitive_runtime\decisions\events.py
+reformatted D:\RAGE\cognitive_runtime\cognitive_runtime\goals\exceptions.py
+reformatted D:\RAGE\cognitive_runtime\cognitive_runtime\decisions\models.py
+reformatted D:\RAGE\cognitive_runtime\cognitive_runtime\decisions\engine.py
+reformatted D:\RAGE\cognitive_runtime\cognitive_runtime\goals\events.py
+reformatted D:\RAGE\cognitive_runtime\cognitive_runtime\goals\models.py
+reformatted D:\RAGE\cognitive_runtime\cognitive_runtime\decisions\policies.py
+reformatted D:\RAGE\cognitive_runtime\cognitive_runtime\planner\exceptions.py
+reformatted D:\RAGE\cognitive_runtime\cognitive_runtime\rules\exceptions.py
+reformatted D:\RAGE\cognitive_runtime\cognitive_runtime\planner\interfaces.py
+reformatted D:\RAGE\cognitive_runtime\cognitive_runtime\planner\strategies.py
+reformatted D:\RAGE\cognitive_runtime\cognitive_runtime\planner\models.py
+reformatted D:\RAGE\cognitive_runtime\cognitive_runtime\working_memory\exceptions.py
+reformatted D:\RAGE\cognitive_runtime\cognitive_runtime\planner\events.py
+reformatted D:\RAGE\cognitive_runtime\cognitive_runtime\working_memory\policies.py
+reformatted D:\RAGE\cognitive_runtime\cognitive_runtime\working_memory\events.py
+reformatted D:\RAGE\cognitive_runtime\cognitive_runtime\mutation\main.py
+reformatted D:\RAGE\cognitive_runtime\cognitive_runtime\working_memory\models.py
+reformatted D:\RAGE\cognitive_runtime\cognitive_runtime\stress\cases_extra.py
+reformatted D:\RAGE\cognitive_runtime\cognitive_runtime\working_memory\interfaces.py
+reformatted D:\RAGE\cognitive_runtime\cognitive_runtime\core\events.py
+reformatted D:\RAGE\cognitive_runtime\cognitive_runtime\goals\manager.py
+reformatted D:\RAGE\cognitive_runtime\cognitive_runtime\core\lifecycle.py
+reformatted D:\RAGE\cognitive_runtime\cognitive_runtime\core\brain.py
+reformatted D:\RAGE\cognitive_runtime\cognitive_runtime\rules\engine.py
+reformatted D:\RAGE\cognitive_runtime\cognitive_runtime\planner\planner.py
+reformatted D:\RAGE\cognitive_runtime\cognitive_runtime\working_memory\system.py
+reformatted D:\RAGE\cognitive_runtime\cognitive_runtime\stress\cases.py
+
+All done! \u2728 \U0001f370 \u2728
+31 files reformatted, 52 files left unchanged.
+--- uv run mypy cognitive_runtime ---
+cognitive_runtime\events\bus.py:19: note: By default the bodies of untyped functions are not checked, consider using --check-untyped-defs  [annotation-unchecked]
+cognitive_runtime\config\settings.py:60: error: Unexpected keyword argument "_env_file" for "CognitiveSettings"  [call-arg]
+cognitive_runtime\core\brain.py:41: error: Only concrete class can be given where "type[EventBus]" is expected  [type-abstract]
+cognitive_runtime\core\brain.py:42: error: Only concrete class can be given where "type[ServiceRegistry]" is expected  [type-abstract]
+cognitive_runtime\core\brain.py:43: error: Only concrete class can be given where "type[MemorySystem]" is expected  [type-abstract]
+cognitive_runtime\core\brain.py:44: error: Only concrete class can be given where "type[KnowledgeSystem]" is expected  [type-abstract]
+cognitive_runtime\core\brain.py:45: error: Only concrete class can be given where "type[RuleEngine]" is expected  [type-abstract]
+cognitive_runtime\core\brain.py:46: error: Only concrete class can be given where "type[GoalManager]" is expected  [type-abstract]
+cognitive_runtime\core\brain.py:47: error: Only concrete class can be given where "type[WorkingMemory]" is expected  [type-abstract]
+cognitive_runtime\core\brain.py:48: error: Only concrete class can be given where "type[DecisionEngine]" is expected  [type-abstract]
+cognitive_runtime\core\brain.py:49: error: Only concrete class can be given where "type[Planner]" is expected  [type-abstract]
+cognitive_runtime\core\brain.py:63: error: Only concrete class can be given where "type[EventBus]" is expected  [type-abstract]
+cognitive_runtime\core\brain.py:64: error: Only concrete class can be given where "type[MemorySystem]" is expected  [type-abstract]
+cognitive_runtime\core\brain.py:65: error: Only concrete class can be given where "type[KnowledgeSystem]" is expected  [type-abstract]
+cognitive_runtime\core\brain.py:66: error: Only concrete class can be given where "type[RuleEngine]" is expected  [type-abstract]
+cognitive_runtime\core\brain.py:67: error: Only concrete class can be given where "type[GoalManager]" is expected  [type-abstract]
+cognitive_runtime\core\brain.py:68: error: Only concrete class can be given where "type[WorkingMemory]" is expected  [type-abstract]
+cognitive_runtime\core\brain.py:69: error: Only concrete class can be given where "type[DecisionEngine]" is expected  [type-abstract]
+cognitive_runtime\core\brain.py:70: error: Only concrete class can be given where "type[Planner]" is expected  [type-abstract]
+cognitive_runtime\core\brain.py:90: error: Incompatible types in assignment (expression has type "object", variable has type "EventBus | None")  [assignment]
+cognitive_runtime\knowledge\networkx_repository.py:15: note: By default the bodies of untyped functions are not checked, consider using --check-untyped-defs  [annotation-unchecked]
+cognitive_runtime\core\lifecycle.py:70: error: Only concrete class can be given where "type[EventBus]" is expected  [type-abstract]
+cognitive_runtime\core\lifecycle.py:74: error: Only concrete class can be given where "type[ServiceRegistry]" is expected  [type-abstract]
+cognitive_runtime\core\lifecycle.py:79: error: Only concrete class can be given where "type[MemorySystem]" is expected  [type-abstract]
+cognitive_runtime\core\lifecycle.py:84: error: Only concrete class can be given where "type[KnowledgeSystem]" is expected  [type-abstract]
+cognitive_runtime\core\lifecycle.py:88: error: Only concrete class can be given where "type[RuleEngine]" is expected  [type-abstract]
+cognitive_runtime\core\lifecycle.py:92: error: Only concrete class can be given where "type[GoalManager]" is expected  [type-abstract]
+cognitive_runtime\core\lifecycle.py:97: error: Only concrete class can be given where "type[WorkingMemory]" is expected  [type-abstract]
+cognitive_runtime\core\lifecycle.py:102: error: Only concrete class can be given where "type[DecisionEngine]" is expected  [type-abstract]
+cognitive_runtime\core\lifecycle.py:107: error: Only concrete class can be given where "type[Planner]" is expected  [type-abstract]
+Found 28 errors in 3 files (checked 83 source files)
