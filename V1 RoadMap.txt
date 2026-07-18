@@ -1,0 +1,766 @@
+Vision
+
+The end goal of Version 1 is not AGI.
+
+It is a brain that can:
+
+Observe
+Remember
+Reason
+Plan
+Learn
+Improve
+Explain its decisions internally
+
+No LLM.
+No transformers required.
+
+Version 0.1 — Core Brain
+
+Goal:
+A system that can store knowledge and make simple logical decisions.
+
+Modules:
+
+Brain
+├── Core
+├── Memory
+├── Knowledge Graph
+├── Rule Engine
+└── CLI
+
+Learn:
+
+Python
+OOP
+SQLite
+NetworkX
+Graph theory
+Rule-based systems
+
+Deliverable:
+
+brain.ask()
+
+↓
+
+Decision
+Version 0.2 — Memory
+
+Add three memory systems.
+
+Working Memory
+
+Short-term thinking
+
+────────────
+
+Semantic Memory
+
+Facts
+
+────────────
+
+Episodic Memory
+
+Past experiences
+
+Example
+
+Today
+
+↓
+
+Moved file
+
+↓
+
+Succeeded
+
+↓
+
+Store event
+
+Learn
+
+Memory architectures
+Vector representations (optional)
+Temporal databases
+Version 0.3 — Knowledge
+
+Brain starts building relationships.
+
+Example
+
+Dog
+
+↓
+
+Animal
+
+↓
+
+Living Thing
+
+Supports
+
+inheritance
+hierarchy
+relationships
+properties
+
+Learn
+
+RDF
+OWL
+Ontologies
+Neo4j concepts (even if you implement your own)
+Version 0.4 — Logic
+
+Replace simple rules.
+
+Support
+
+IF
+
+A
+
+AND
+
+NOT B
+
+↓
+
+C
+
+Then
+
+IF
+
+C
+
+OR
+
+D
+
+↓
+
+E
+
+Eventually
+
+Forward Chaining
+
+Backward Chaining
+
+Inference
+
+Truth maintenance
+
+Learn
+
+First-order logic
+Prolog concepts
+Z3 SMT Solver
+Version 0.5 — Goals
+
+Brain now has objectives.
+
+Example
+
+Goal
+
+↓
+
+Organize Downloads
+
+Brain decomposes
+
+Find files
+
+↓
+
+Sort
+
+↓
+
+Rename
+
+↓
+
+Move
+
+Learn
+
+Goal decomposition
+HTN Planning
+STRIPS
+Version 0.6 — Planner
+
+Planning becomes automatic.
+
+Instead of
+
+Move file
+
+Brain thinks
+
+Goal
+
+↓
+
+Possible actions
+
+↓
+
+Evaluate
+
+↓
+
+Choose
+
+↓
+
+Execute
+
+Learn
+
+A*
+Dijkstra
+BFS
+DFS
+PDDL
+Version 0.7 — Self Evaluation
+
+Every action gets scored.
+
+Task
+
+↓
+
+Outcome
+
+↓
+
+Success?
+
+↓
+
+Why?
+
+↓
+
+Store lesson
+
+Brain builds
+
+Lessons Learned
+
+instead of only memories.
+
+Version 0.8 — Learning
+
+Now it improves.
+
+Not neural yet.
+
+Example
+
+Rule
+
+↓
+
+Worked 93%
+
+↓
+
+Increase confidence
+
+────────
+
+Rule
+
+↓
+
+Failed
+
+↓
+
+Decrease confidence
+
+Eventually
+
+Discover new rules
+
+Automatically
+
+Learn
+
+Rule induction
+Decision trees
+Bayesian updating
+Version 0.9 — Perception
+
+Brain now observes.
+
+Start with images.
+
+Image
+
+↓
+
+CNN
+
+↓
+
+Object
+
+↓
+
+Knowledge Graph
+
+Later
+
+Audio
+
+↓
+
+Speech
+
+↓
+
+Symbols
+
+Remember:
+
+Neural network only converts raw data into symbols.
+
+Version 0.95 — Causal Reasoning
+
+Not
+
+A happened.
+
+B happened.
+
+Instead
+
+Did A
+
+CAUSE
+
+B?
+
+Learn
+
+Judea Pearl
+Structural Causal Models
+Bayesian Networks
+
+Huge upgrade.
+
+Version 1.0
+
+Everything connects.
+
+                    INPUT
+                      │
+                      ▼
+               Perception Layer
+                      │
+                      ▼
+             Symbol Extraction
+                      │
+                      ▼
+              Knowledge Graph
+                      │
+     ┌────────────────┼────────────────┐
+     ▼                ▼                ▼
+Working          Semantic         Episodic
+Memory            Memory           Memory
+     └────────────────┼────────────────┘
+                      ▼
+               Logic Engine
+                      │
+                      ▼
+               Goal Manager
+                      │
+                      ▼
+              Planning Engine
+                      │
+                      ▼
+             Decision Engine
+                      │
+                      ▼
+          Self-Evaluation Engine
+                      │
+                      ▼
+           Learning / Rule Discovery
+                      │
+                      ▼
+             Updated Knowledge
+Technologies
+Component	Technology
+Core	Python
+Database	SQLite
+Graph	NetworkX
+Knowledge Graph	RDF concepts
+Rule Engine	Experta → Z3
+Planning	PDDL + A*
+Memory	Custom implementation
+Vision	PyTorch
+Learning	Decision Trees + Bayesian methods
+Causal	DoWhy, pgmpy
+Configuration	Pydantic
+APIs	FastAPI
+
+| Capability               | Best Technology Today                             |
+| ------------------------ | ------------------------------------------------- |
+| Perception               | Deep Neural Networks (CNNs, Vision Transformers)  |
+| Logical reasoning        | Symbolic logic, SAT/SMT solvers (Z3)              |
+| Planning                 | PDDL, STRIPS, A*, Hierarchical Task Networks      |
+| Mathematics              | Symbolic algebra (SymPy), theorem provers         |
+| Long-term memory         | Knowledge Graphs, Graph Databases                 |
+| Learning from rewards    | Reinforcement Learning                            |
+| Decision making          | Constraint Optimization                           |
+| Uncertainty              | Bayesian Networks, Probabilistic Graphical Models |
+| Causal reasoning         | Structural Causal Models                          |
+| Program synthesis        | Neuro-symbolic program synthesis                  |
+| Knowledge representation | Ontologies (OWL/RDF)                              |
+
+
+
+V1 — A Brain Without a Body ✅
+Goal
+
+Build the brain.
+
+What can RAGE do?
+Remember things.
+Make decisions.
+Create plans.
+Store knowledge.
+
+But...
+
+It can't actually do anything.
+
+Think of it as a person sitting in a chair thinking all day.
+
+V2 — Give the Brain Hands ✅ (Current)
+Goal
+
+Allow RAGE to perform actions.
+
+What can it do?
+
+Imagine telling it:
+
+"Create a folder."
+
+It can.
+
+Tell it:
+
+"Download this webpage."
+
+It can.
+
+Tell it:
+
+"Run this program."
+
+It can.
+
+Tell it:
+
+"Call this plugin."
+
+It can.
+
+But...
+
+It only works when you give it a goal.
+
+It doesn't notice anything happening around it.
+
+Real-world use case
+
+Imagine an office assistant.
+
+You tell it:
+
+"Download today's stock prices and save them."
+
+It completes the job.
+
+Then waits for another instruction.
+
+V3 — Give the Brain Eyes and Ears
+Goal
+
+Let RAGE observe the world.
+
+What can it do?
+
+Instead of waiting...
+
+It notices:
+
+A new file appeared.
+CPU usage is high.
+Someone sent an email.
+A website changed.
+A camera detected motion.
+
+Now it reacts.
+
+Real-world use case
+
+Instead of saying:
+
+"Check my Downloads folder."
+
+RAGE notices:
+
+"A new PDF was added."
+
+Then automatically:
+
+reads it,
+remembers it,
+classifies it.
+
+Without anyone asking.
+
+V4 — Self-Evaluation
+Goal
+
+Teach RAGE to judge itself.
+
+What can it do?
+
+After every task it asks:
+
+Did I succeed?
+Why did I fail?
+Could I do better?
+Real-world use case
+
+It notices:
+
+"I failed to download the webpage."
+
+Instead of stopping...
+
+It explains:
+
+"The server timed out."
+
+It records the mistake.
+
+V5 — Learning
+Goal
+
+Improve from experience.
+
+What can it do?
+
+Imagine this:
+
+First week:
+
+Downloads fail 30% of the time.
+
+Second week:
+
+Downloads fail 10%.
+
+Third week:
+
+Downloads fail 2%.
+
+Because it learned.
+
+Real-world use case
+
+It discovers:
+
+"Website A usually responds slower."
+
+So next time...
+
+It waits longer before giving up.
+
+No programmer changed the code.
+
+V6 — Multiple Skills
+Goal
+
+Become useful in many domains.
+
+Instead of knowing only:
+
+files
+websites
+programs
+
+It also knows:
+
+spreadsheets
+databases
+cameras
+microphones
+robots
+cloud services
+Real-world use case
+
+"Read today's invoices from email."
+
+↓
+
+Extract data.
+
+↓
+
+Update Excel.
+
+↓
+
+Store in database.
+
+↓
+
+Notify Slack.
+
+Entire workflow.
+
+V7 — Long-Term Projects
+Goal
+
+Handle projects lasting days or weeks.
+
+Real-world use case
+
+Build me a website.
+
+It remembers:
+
+Monday:
+
+Design.
+
+Tuesday:
+
+Frontend.
+
+Wednesday:
+
+Backend.
+
+Thursday:
+
+Testing.
+
+Friday:
+
+Deployment.
+
+It doesn't forget where it stopped.
+
+V8 — Collaboration
+Goal
+
+Work with humans and other AI systems.
+
+Real-world use case
+
+You say:
+
+"Create a game."
+
+RAGE says:
+
+"I'm designing the mechanics."
+
+Another AI says:
+
+"I'm generating art."
+
+Another AI says:
+
+"I'm writing music."
+
+They cooperate.
+
+V9 — Self-Improvement
+Goal
+
+Improve its own abilities.
+
+Not rewriting itself randomly.
+
+Instead:
+
+finds slow parts,
+finds repeated work,
+suggests better workflows,
+optimizes performance.
+Real-world use case
+
+It notices:
+
+"I make HTTP requests 5,000 times every day."
+
+It suggests:
+
+"Caching these results would make me 40% faster."
+
+V10 — Digital Employee
+Goal
+
+A complete autonomous worker.
+
+Real-world use case
+
+You tell it:
+
+"Grow my SaaS business."
+
+It breaks the goal into work:
+
+research competitors,
+write content,
+answer emails,
+deploy updates,
+monitor servers,
+generate reports.
+
+It keeps working until the objective is complete.
+
+The Journey in One Line
+Version	Simple Meaning	Real-world Example
+V1	Brain	Can think and plan
+V2	Hands	Can perform actions
+V3	Eyes & Ears	Can notice what's happening
+V4	Reflection	Can judge its own work
+V5	Learning	Gets better over time
+V6	Skills	Can use many tools and services
+V7	Project Manager	Can handle long-term work
+V8	Team Player	Can collaborate with humans and AI
+V9	Optimizer	Improves its own workflows
+V10	Digital Employee	Works toward business goals autonomously
+One suggestion
+
+I would make your vision even simpler by giving each version a single memorable title:
+
+V1 – Brain
+V2 – Hands
+V3 – Eyes
+V4 – Reflection
+V5 – Learning
+V6 – Skills
+V7 – Projects
+V8 – Collaboration
+V9 – Optimization
+V10 – Autonomy

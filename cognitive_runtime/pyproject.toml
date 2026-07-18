@@ -5,11 +5,14 @@ description = "A modular neuro-symbolic cognitive architecture"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "fastapi>=0.139.2",
+    "httpx>=0.28.1",
     "networkx>=3.4.2",
     "pydantic-settings>=2.7.1",
     "pydantic>=2.10.5",
     "structlog>=24.4.0",
     "typer>=0.15.1",
+    "uvicorn[standard]>=0.51.0",
 ]
 
 [dependency-groups]

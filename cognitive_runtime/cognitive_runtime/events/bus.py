@@ -21,17 +21,15 @@ class SynchronousEventBus(EventBus):
 
     def publish(self, event: Event) -> None:
         """Publishes an event synchronously to all registered handlers."""
-        # We copy the handlers list inside the lock to avoid deadlocks
-        # or issues if a handler subscribes/unsubscribes during execution.
         with self._lock:
             handlers = list(self._handlers.get(event.event_type, []))
+            # Also notify wildcard subscribers
+            wildcard_handlers = list(self._handlers.get("*", []))
 
-        for handler in handlers:
+        for handler in handlers + wildcard_handlers:
             try:
                 handler(event)
             except Exception as e:
-                # We log the error but don't stop other handlers from running.
-                # Core infrastructure must be resilient.
                 logger.error(
                     "event_handler_failed",
                     event_id=event.event_id,

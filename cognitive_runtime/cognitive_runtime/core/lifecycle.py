@@ -6,6 +6,7 @@ that all subsystems (logging, storage, events) are properly initialized
 and gracefully terminated.
 """
 
+from cognitive_runtime.api.server import get_context as get_api_context
 from cognitive_runtime.actions.models import ActionType
 from cognitive_runtime.adapters.filesystem.adapter import FilesystemAdapter
 from cognitive_runtime.adapters.http_adapter.adapter import HttpAdapter
@@ -162,6 +163,19 @@ def startup(env_file: str | None = None) -> BrainCore:
 
     brain = BrainCore(container)
     brain.start()
+
+    # Mount live subsystem references into the API context
+    api_ctx = get_api_context()
+    api_ctx.mount(
+        health_fn=brain.health,
+        goal_manager=goal_manager,
+        planner=planner,
+        queue=execution_queue,
+        collector=result_collector,
+        working_memory=working_memory,
+        memory_system=memory_system,
+        event_bus=event_bus,
+    )
 
     logger.info("cognitive_runtime.startup", status="completed")
     return brain

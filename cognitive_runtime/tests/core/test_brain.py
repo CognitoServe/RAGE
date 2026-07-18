@@ -14,6 +14,13 @@ from cognitive_runtime.rules.interfaces import RuleEngine
 from cognitive_runtime.working_memory.interfaces import WorkingMemory
 
 
+from cognitive_runtime.planner.interfaces import Planner
+from cognitive_runtime.executor.interfaces import Executor
+from cognitive_runtime.queue.interfaces import ExecutionQueue
+from cognitive_runtime.collector.collector import ResultCollector
+from cognitive_runtime.core.pipeline import ExecutionPipeline
+
+
 class DummyEventBus:
     def __init__(self):
         self.published = []
@@ -54,6 +61,13 @@ class DummyRuleEngine: pass
 class DummyGoalManager: pass
 class DummyWorkingMemory: pass
 class DummyDecisionEngine: pass
+class DummyPlanner: pass
+class DummyExecutor:
+    def start(self): pass
+    def shutdown(self): pass
+class DummyQueue: pass
+class DummyCollector: pass
+class DummyPipeline: pass
 
 
 def setup_container():
@@ -67,6 +81,11 @@ def setup_container():
     container.register_singleton(GoalManager, DummyGoalManager())
     container.register_singleton(WorkingMemory, DummyWorkingMemory())
     container.register_singleton(DecisionEngine, DummyDecisionEngine())
+    container.register_singleton(Planner, DummyPlanner())
+    container.register_singleton(Executor, DummyExecutor())
+    container.register_singleton(ExecutionQueue, DummyQueue())
+    container.register_singleton(ResultCollector, DummyCollector())
+    container.register_singleton(ExecutionPipeline, DummyPipeline())
     return container
 
 
